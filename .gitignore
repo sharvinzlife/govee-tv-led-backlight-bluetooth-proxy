@@ -1,0 +1,7 @@
+SERVICE_ACCOUNT.json
+__pycache__/
+*.pyc
+*.pyo
+*.bak
+*.bak_*
+.DS_Store

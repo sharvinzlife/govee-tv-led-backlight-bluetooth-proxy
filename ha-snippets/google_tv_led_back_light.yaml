@@ -1,0 +1,50 @@
+# Merge these sections into your Home Assistant configuration.yaml on the target host.
+# Update URLs, project ID, and room/name as needed.
+
+homeassistant:
+  external_url: "https://YOUR_HOME_ASSISTANT_HOSTNAME"
+  internal_url: "http://YOUR_HOME_ASSISTANT_LAN_IP:8123"
+
+template:
+  - light:
+      - default_entity_id: light.tv_led_back_light_google
+        unique_id: tv_led_back_light_google
+        name: "TV LED Back Light Google"
+        availability: "{{ states('light.govee_light') not in ['unknown', 'unavailable'] }}"
+        state: "{{ is_state('light.govee_light', 'on') }}"
+        level: "{{ state_attr('light.govee_light', 'brightness') | default(0, true) | int }}"
+        hs: "{{ state_attr('light.govee_light', 'hs_color') or (0, 0) }}"
+        turn_on:
+          action: light.turn_on
+          target:
+            entity_id: light.govee_light
+        turn_off:
+          action: light.turn_off
+          target:
+            entity_id: light.govee_light
+        set_level:
+          action: light.turn_on
+          target:
+            entity_id: light.govee_light
+          data:
+            brightness: "{{ brightness }}"
+        set_hs:
+          action: light.turn_on
+          target:
+            entity_id: light.govee_light
+          data:
+            hs_color:
+              - "{{ h }}"
+              - "{{ s }}"
+            brightness: "{{ brightness | default(state_attr('light.govee_light', 'brightness') | default(255, true), true) }}"
+
+google_assistant:
+  project_id: YOUR_GOOGLE_PROJECT_ID
+  service_account: !include SERVICE_ACCOUNT.json
+  report_state: true
+  expose_by_default: false
+  entity_config:
+    light.tv_led_back_light_google:
+      expose: true
+      name: TV LED Back Light
+      room: Living Room
