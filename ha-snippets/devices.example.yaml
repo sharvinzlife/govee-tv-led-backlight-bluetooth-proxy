@@ -1,0 +1,42 @@
+# Devices registry — input for scripts/generate_yaml.py
+#
+# This file describes every Govee BLE light on this Home Assistant instance.
+# The generator turns it into a full template + google_assistant block ready to
+# paste into configuration.yaml.
+#
+# Each entry has:
+#   - name           Friendly human name (also the Google Home device name)
+#   - ble_source     The HA entity ID created by govee_ble_lights for this device
+#   - proxy_id       Suffix for the template proxy entity (used as both unique_id
+#                    and entity ID — final entity becomes "light.<proxy_id>")
+#   - room           Google Home room assignment
+#
+# Tips:
+#   - When you add a second Govee, govee_ble_lights names it light.govee_light_2,
+#     the third becomes light.govee_light_3, and so on. Match accordingly.
+#   - Keep proxy_id short and lowercase with underscores. It's what Google sees
+#     internally for state reporting.
+
+google:
+  project_id: your-google-project-id
+  service_account_include: SERVICE_ACCOUNT.json
+
+home_assistant:
+  external_url: "https://YOUR_HOST"
+  internal_url: "http://YOUR_LAN_IP:8123"
+
+devices:
+  - name: "TV LED Back Light"
+    ble_source: light.govee_light
+    proxy_id: tv_led_back_light_google
+    room: Living Room
+
+  - name: "Bedroom Lamp"
+    ble_source: light.govee_light_2
+    proxy_id: bedroom_govee_google
+    room: Bedroom
+
+  - name: "Hallway Strip"
+    ble_source: light.govee_light_3
+    proxy_id: hallway_govee_google
+    room: Hallway
