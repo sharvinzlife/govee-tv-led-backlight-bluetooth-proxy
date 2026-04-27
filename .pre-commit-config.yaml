@@ -1,0 +1,116 @@
+# Pre-commit hooks for govee-tv-led-backlight-bluetooth-proxy
+#
+# Setup:
+#   pip install pre-commit         (or: brew install pre-commit / pipx install pre-commit)
+#   pre-commit install             # registers .git/hooks/pre-commit
+#   pre-commit install --hook-type commit-msg
+#
+# Run on demand:
+#   pre-commit run --all-files
+#
+# Update hook revisions:
+#   pre-commit autoupdate
+
+repos:
+  # ─── General file hygiene ────────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        name: Trailing whitespace
+        exclude: ^(custom_components/|assets/|.*\.svg$)
+      - id: end-of-file-fixer
+        name: End of file
+        exclude: ^(custom_components/|assets/|.*\.svg$)
+      - id: check-yaml
+        name: Validate YAML
+        exclude: ^ha-snippets/.*\.yaml$  # HA snippets use Jinja that confuses pure YAML parser
+      - id: check-json
+        name: Validate JSON
+        exclude: ^custom_components/govee_ble_lights/jsons/  # vendored upstream effect catalogs
+      - id: check-added-large-files
+        name: Block large files
+        args: [--maxkb=1500]
+      - id: check-merge-conflict
+        name: Block merge-conflict markers
+      - id: detect-private-key
+        name: Block private keys
+      - id: check-executables-have-shebangs
+        name: Executables must have shebangs
+      - id: check-shebang-scripts-are-executable
+        name: Shebang scripts must be executable
+      - id: mixed-line-ending
+        name: Normalize line endings
+        args: [--fix=lf]
+        exclude: ^(custom_components/|assets/)
+
+  # ─── Secret scanning — detect-secrets (Yelp) ────────────────────────────
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        name: detect-secrets (block new committed secrets)
+        args: [--baseline, .secrets.baseline]
+        exclude: |
+          (?x)^(
+            \.secrets\.baseline|
+            \.gitleaks-baseline\.json|
+            custom_components/govee_ble_lights/jsons/.*|
+            assets/.*
+          )$
+
+  # ─── Secret scanning — gitleaks (second line of defense) ────────────────
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+        name: gitleaks (block new committed secrets)
+        args:
+          - "--config=.gitleaks.toml"
+          - "--redact"
+
+  # ─── Bash linting — shellcheck ──────────────────────────────────────────
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        name: shellcheck
+        args: [--severity=warning]
+
+  # ─── Python linting + formatting — ruff ─────────────────────────────────
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.0
+    hooks:
+      - id: ruff
+        name: ruff (lint)
+        args: [--fix]
+        files: ^scripts/.*\.py$
+      - id: ruff-format
+        name: ruff (format)
+        files: ^scripts/.*\.py$
+
+  # ─── YAML linting — yamllint ────────────────────────────────────────────
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        name: yamllint
+        args: [-c=.yamllint.yaml]
+        exclude: ^(custom_components/|ha-snippets/example-multi-device\.yaml|ha-snippets/google_tv_led_back_light\.yaml)$
+
+  # ─── Markdown linting — markdownlint ────────────────────────────────────
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.42.0
+    hooks:
+      - id: markdownlint
+        name: markdownlint
+        args: [--config=.markdownlint.yaml]
+        exclude: ^custom_components/
+
+ci:
+  autofix_commit_msg: "[pre-commit.ci] auto fixes from pre-commit hooks"
+  autofix_prs: true
+  autoupdate_commit_msg: "[pre-commit.ci] pre-commit autoupdate"
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false

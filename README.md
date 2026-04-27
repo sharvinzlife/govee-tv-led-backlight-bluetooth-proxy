@@ -9,7 +9,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-v1.1.0-success" alt="Version v1.1.0">
+  <img src="https://img.shields.io/badge/version-v1.2.0-success" alt="Version v1.2.0">
+  <img src="https://img.shields.io/badge/security-hardened-brightgreen?logo=letsencrypt&logoColor=white" alt="Security hardened">
+  <img src="https://img.shields.io/badge/pre--commit-enabled-FAB040?logo=pre-commit&logoColor=white" alt="pre-commit">
   <img src="https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/YAML-Config-CB171E?logo=yaml&logoColor=white" alt="YAML">
   <img src="https://img.shields.io/badge/Home%20Assistant-Custom%20Integration-18BCF2?logo=homeassistant&logoColor=white" alt="Home Assistant">
@@ -99,9 +101,11 @@ Pick your path.
 1. Copy `custom_components/govee_ble_lights/` into the target Home Assistant `config/` directory
 2. Edit [`ha-snippets/devices.example.yaml`](ha-snippets/devices.example.yaml) → keep one device, fill in your project ID and URLs
 3. Generate the config block:
+
    ```bash
    python3 scripts/generate_yaml.py ha-snippets/devices.example.yaml > my-block.yaml
    ```
+
 4. Merge `my-block.yaml` into your `configuration.yaml`
 5. Drop your Google `SERVICE_ACCOUNT.json` into the HA config directory
 6. Restart HA, pair the Govee via **Settings → Devices & Services → Discovered**, sync Google Home
@@ -157,9 +161,34 @@ Reuse the same `project_id` and `SERVICE_ACCOUNT.json` for every device on a giv
 
 ---
 
+## 🔒 Security
+
+This repo is **security-hardened**. Three layers gate every commit and push:
+
+1. **Pre-commit** — `detect-secrets`, `gitleaks`, `shellcheck`, `ruff`, `yamllint`, `markdownlint`, plus generic safety checks (private keys, large files, merge markers)
+2. **GitHub Actions** — re-runs all pre-commit hooks + `trivy` filesystem scan + `skylos` dead-code on every push/PR
+3. **Weekly schedule** — re-scans against fresh CVE databases every Monday
+
+See [`SECURITY.md`](SECURITY.md) for the full tooling reference, vulnerability reporting policy, and local setup instructions.
+
+```bash
+# One-time setup after cloning
+brew install pre-commit && pre-commit install
+pre-commit run --all-files     # confirm clean
+```
+
+---
+
 ## 📓 Changelog
 
 > Full history: [`docs/CHANGELOG.md`](docs/CHANGELOG.md)
+
+### 🔒 v1.2.0 — 2026-04-27
+
+- 🛡 **Security-hardened** — pre-commit hooks for secrets, lint, format
+- 🔍 **detect-secrets** + **gitleaks** with managed baselines
+- ⚙️ **GitHub Actions** — gitleaks, trivy fs, pre-commit, skylos (advisory)
+- 📖 **`SECURITY.md`** — reporting, tooling, baseline policy
 
 ### 🎉 v1.1.0 — 2026-04-27
 

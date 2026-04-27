@@ -129,7 +129,7 @@ def render_config(cfg: dict[str, Any]) -> str:
 
     return (
         header
-        + f"homeassistant:\n  external_url: \"{external_url}\"\n  internal_url: \"{internal_url}\"\n\n"
+        + f'homeassistant:\n  external_url: "{external_url}"\n  internal_url: "{internal_url}"\n\n'
         + "template:\n  - light:\n"
         + template_blocks
         + "\n"

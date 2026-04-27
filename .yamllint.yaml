@@ -1,0 +1,29 @@
+# yamllint config for govee-bluetooth-proxy
+# https://yamllint.readthedocs.io/en/stable/configuration.html
+
+extends: default
+
+rules:
+  # Allow long lines — README mermaid blocks, generated config snippets, etc.
+  line-length: disable
+  # Many HA YAML examples use Jinja2 braces that look weird to strict YAML
+  braces:
+    max-spaces-inside: 1
+  brackets:
+    max-spaces-inside: 1
+  # GitHub Actions and many tools use "on:" — that's truthy in old YAML 1.1
+  truthy:
+    check-keys: false
+  # Don't enforce starting-document marker
+  document-start: disable
+  # Generated comments break this rule cosmetically
+  comments:
+    min-spaces-from-content: 1
+  # Indentation is consistent in our HA snippets but mixed across files
+  indentation:
+    indent-sequences: consistent
+
+ignore: |
+  custom_components/
+  assets/
+  .git/

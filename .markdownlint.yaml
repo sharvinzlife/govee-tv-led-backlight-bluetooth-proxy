@@ -1,0 +1,28 @@
+# markdownlint config
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+# Default to enabling everything
+default: true
+
+# Allow long lines — diagrams, tables, code samples
+MD013: false
+
+# Allow inline HTML (for centered images, badges, etc.)
+MD033: false
+
+# Allow duplicate headings (Added/Changed/Fixed appear in multiple versions)
+MD024:
+  siblings_only: true
+
+# Allow first line not to be an H1 (some docs start with a visual block)
+MD041: false
+
+# Allow trailing punctuation in headers (we use ":" sometimes)
+MD026: false
+
+# Allow bare URLs (mostly in changelog/release notes)
+MD034: false
+
+# Be flexible about emphasis style
+MD049: false
+MD050: false

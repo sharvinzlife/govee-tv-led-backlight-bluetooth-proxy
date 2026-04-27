@@ -124,7 +124,7 @@ d["data"]["entries"] = keep
 print(f"  removed {removed} existing bluetooth entry/entries")
 
 # Generate a Crockford Base32 ULID-style entry_id (26 chars).
-alphabet = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+alphabet = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"  # pragma: allowlist secret
 def b32(n, length):
     s = ""
     for _ in range(length):

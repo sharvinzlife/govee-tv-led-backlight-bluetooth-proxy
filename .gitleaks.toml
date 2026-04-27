@@ -1,0 +1,41 @@
+# Repo-level gitleaks config.
+# Inherits the built-in default ruleset and adds repo-specific allowlists
+# for vendored content and known false-positive paths.
+
+title = "govee-bluetooth-proxy gitleaks overrides"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "repo-specific allowlist"
+paths = [
+  '''(^|/)\.git/''',
+  '''(^|/)\.venv/''',
+  '''(^|/)venv/''',
+  '''(^|/)__pycache__/''',
+  '''(^|/)dist/''',
+  '''(^|/)build/''',
+  '''(^|/)node_modules/''',
+  # Vendored upstream effect catalogs — huge JSON, high-entropy by nature
+  '''(^|/)custom_components/govee_ble_lights/jsons/''',
+  # Static assets
+  '''(^|/)assets/''',
+  # Lockfiles
+  '''\.lock$''',
+  '''\.sum$''',
+  '''package-lock\.json$''',
+  '''pnpm-lock\.yaml$''',
+  # Other scanners' baselines (avoids alert loops)
+  '''(^|/)\.secrets\.baseline$''',
+  '''(^|/)\.gitleaks-baseline\.json$''',
+]
+
+# Repo-specific known-non-secrets. The "BLE unique ID" CC3333356529 is a
+# Bluetooth MAC, not a credential — gitleaks's default generic-api-key rule
+# can occasionally false-flag MAC-shaped strings, so we whitelist it here.
+regexes = [
+  '''CC[:]?33[:]?33[:]?35[:]?65[:]?29''',
+  '''DC[:]?A6[:]?32[:]?EA[:]?E4[:]?13''',
+  '''AA[:]?AA[:]?AA[:]?AA[:]?AA[:]?AA''',
+]
