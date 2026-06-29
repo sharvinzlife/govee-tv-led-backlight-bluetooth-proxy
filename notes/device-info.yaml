@@ -2,7 +2,7 @@ device_name: TV LED Back Light
 source_entity_id: light.govee_light
 google_proxy_entity_id: light.tv_led_back_light_google
 govee_model: H617C
-ble_unique_id: CC3333356529
-ble_mac_guess: "CC:33:33:35:65:29"
-google_project_id_current: dietpi-home-assistant
+ble_unique_id: AABBCCDDEEFF
+ble_mac_guess: "AA:BB:CC:DD:EE:FF"
+google_project_id_current: your-google-project-id
 room: Living Room

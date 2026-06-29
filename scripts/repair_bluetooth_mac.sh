@@ -32,7 +32,7 @@ Required:
   --service NAME     systemd service name controlling Home Assistant
                      (e.g. container-homeassistant.service, home-assistant@homeassistant.service).
   --new-mac MAC      The real adapter MAC, uppercase, colon-separated
-                     (e.g. DC:A6:32:EA:E4:13). Find it with: hciconfig -a
+                     (e.g. AA:BB:CC:DD:EE:FF). Find it with: hciconfig -a
 
 Optional:
   --dry-run          Show what would change without modifying anything.
@@ -42,7 +42,7 @@ Example:
   sudo bash $0 \\
       --config-dir /mnt/dietpi_userdata/homeassistant/config \\
       --service container-homeassistant.service \\
-      --new-mac DC:A6:32:EA:E4:13
+      --new-mac AA:BB:CC:DD:EE:FF
 EOF
 }
 
