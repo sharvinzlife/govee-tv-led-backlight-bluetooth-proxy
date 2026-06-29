@@ -8,10 +8,10 @@ This file captures the known-good live device metadata from the working setup.
 - Home Assistant source entity: `light.govee_light`
 - Google-facing proxy entity: `light.tv_led_back_light_google`
 - Govee model: `H617C`
-- BLE unique ID: `CC3333356529`
-- Likely BLE MAC: `CC:33:33:35:65:29`
+- BLE unique ID: `AABBCCDDEEFF`
+- Likely BLE MAC: `AA:BB:CC:DD:EE:FF`
 - Room: `Living Room`
-- Current Google project ID: `dietpi-home-assistant`
+- Current Google project ID: `your-google-project-id`
 
 ## Why This Matters
 

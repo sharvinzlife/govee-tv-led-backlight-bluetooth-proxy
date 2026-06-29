@@ -73,7 +73,7 @@ bluetoothctl show | grep Address
 sudo bash scripts/repair_bluetooth_mac.sh \
     --config-dir /mnt/dietpi_userdata/homeassistant/config \
     --service container-homeassistant.service \
-    --new-mac DC:A6:32:EA:E4:13 \
+    --new-mac AA:BB:CC:DD:EE:FF \
     --dry-run
 ```
 

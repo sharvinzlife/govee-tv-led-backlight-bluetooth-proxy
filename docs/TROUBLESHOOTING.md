@@ -43,7 +43,7 @@ You can spot this in `<config>/.storage/core.config_entries`:
 sudo bash scripts/repair_bluetooth_mac.sh \
   --config-dir /path/to/homeassistant/config \
   --service container-homeassistant.service \
-  --new-mac DC:A6:32:EA:E4:13
+  --new-mac AA:BB:CC:DD:EE:FF
 ```
 
 The script stops HA, backs up `core.config_entries`, replaces the placeholder entry with a real-MAC entry, restarts HA. Backups are timestamped so a rollback is one `cp` away.

@@ -31,7 +31,7 @@ paths = [
   '''(^|/)\.gitleaks-baseline\.json$''',
 ]
 
-# Repo-specific known-non-secrets. The "BLE unique ID" CC3333356529 is a
+# Repo-specific known-non-secrets. The "BLE unique ID" AABBCCDDEEFF is a
 # Bluetooth MAC, not a credential — gitleaks's default generic-api-key rule
 # can occasionally false-flag MAC-shaped strings, so we whitelist it here.
 regexes = [
